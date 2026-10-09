@@ -2,9 +2,10 @@
 
 ## Not yet verified
 
-- The tests stub out `tmxr`. A real nvim in a real tmxr pane was checked by hand
-  on Windows on 2026-10-09 (`C-h` moved between nvim's splits, then to the tmxr
-  pane on its left); not on Linux or macOS.
+- `tests/integration.sh` (a real nvim in a real tmxr pane) runs in CI on Linux
+  and macOS against tmxr v0.2.0. Windows was run by hand against a tmxr build
+  with the PATH fix; add it to CI once a tmxr release has that fix (bump
+  `TMXR_VERSION` in `ci.yml`).
 - `save_on_switch` has no test.
 
 ## Not done

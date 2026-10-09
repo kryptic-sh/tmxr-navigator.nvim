@@ -6,6 +6,7 @@ vim.cmd.runtime("plugin/tmxr-navigator.lua")
 local nav = require("tmxr-navigator")
 local calls, replies, failures = {}, {}, 0
 
+local real_tmxr = nav.tmxr
 nav.tmxr = function(args)
   table.insert(calls, table.concat(args, " "))
   return replies[args[1]] or ""
@@ -96,6 +97,12 @@ check("default mappings come and go with no_mappings", function()
   eq(vim.fn.maparg("<C-\\>", "n"), "")
   nav.setup({})
   assert(vim.fn.maparg("<C-l>", "n") ~= "", "mapped again")
+end)
+
+check("a tmxr that cannot be started is a quiet failure", function()
+  reset(true)
+  nav.setup({ executable = "tmxr-not-installed-anywhere" })
+  eq(real_tmxr({ "select-pane", "-L" }), nil)
 end)
 
 check("commands exist", function()

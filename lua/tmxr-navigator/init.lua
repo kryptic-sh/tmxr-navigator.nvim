@@ -14,6 +14,8 @@ local defaults = {
   disable_when_zoomed = false,
   -- Before leaving nvim: 0 nothing, 1 `:update` the buffer, 2 `:wall`.
   save_on_switch = 0,
+  -- The tmxr to run, when it is not `tmxr` on PATH.
+  executable = "tmxr",
 }
 
 M.options = vim.deepcopy(defaults)
@@ -30,9 +32,15 @@ function M.in_tmxr()
   return env ~= nil and env ~= ""
 end
 
---- Run `tmxr <args>` and return its output, or nil if it failed.
+--- Run `tmxr <args>` and return its output, or nil if it failed or tmxr
+--- could not be started (not on PATH): nvim then stays where it is.
 function M.tmxr(args)
-  local result = vim.system(vim.list_extend({ "tmxr" }, args), { text = true }):wait()
+  local argv = vim.list_extend({ M.options.executable }, args)
+  local ok, job = pcall(vim.system, argv, { text = true })
+  if not ok then
+    return nil
+  end
+  local result = job:wait()
   if result.code ~= 0 then
     return nil
   end

@@ -40,3 +40,36 @@ jobs:
           neovim: true
           version: ${{ matrix.nvim }}
       - run: nvim --headless --clean -l tests/run.lua
+
+  # A real nvim with the plugin in a real tmxr pane, against tmxr's release.
+  # Windows waits for a tmxr release whose panes keep the server's PATH
+  # (fixed after v0.2.0): before it, nvim in a pane cannot find tmxr there.
+  integration:
+    name: integration ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+          - os: macos-latest
+            target: aarch64-apple-darwin
+    env:
+      TMXR_VERSION: v0.2.0
+    steps:
+      - uses: actions/checkout@v7
+      - uses: rhysd/action-setup-vim@v1
+        with:
+          neovim: true
+          version: stable
+      - name: Install tmxr
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          dir="$RUNNER_TEMP/tmxr"
+          gh release download "$TMXR_VERSION" -R kryptic-sh/tmxr \
+            -p "tmxr-$TMXR_VERSION-${{ matrix.target }}.tar.gz" -D "$dir"
+          tar -xzf "$dir"/*.tar.gz -C "$dir"
+          echo "$dir" >> "$GITHUB_PATH"
+      - run: bash tests/integration.sh

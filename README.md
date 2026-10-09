@@ -18,7 +18,10 @@ tmxr the keys just move between splits.
 `C-\` goes back to the tmxr pane you last left nvim for, or else to nvim's
 previous window (`:wincmd p`).
 
-Needs nvim 0.10 or newer (`vim.system`) and `tmxr` on your `PATH`.
+Needs nvim 0.10 or newer (`vim.system`) and `tmxr` on your `PATH` (or the
+`executable` option). Without it nvim just stays where it is. On Windows, tmxr
+before the release after v0.2.0 gives panes the registry's `PATH` rather than
+the one tmxr was started with.
 
 ## Install
 
@@ -43,11 +46,12 @@ Any plugin manager works: the plugin maps its keys when it loads.
 
 ## Options
 
-| Option                | Default | What                                                         |
-| --------------------- | ------- | ------------------------------------------------------------ |
-| `no_mappings`         | `false` | Leave `C-h/j/k/l` and `C-\` unmapped; use the commands below |
-| `disable_when_zoomed` | `false` | At nvim's edge, stay in nvim while the tmxr window is zoomed |
-| `save_on_switch`      | `0`     | Before leaving nvim: `1` `:update` the buffer, `2` `:wall`   |
+| Option                | Default    | What                                                         |
+| --------------------- | ---------- | ------------------------------------------------------------ |
+| `no_mappings`         | `false`    | Leave `C-h/j/k/l` and `C-\` unmapped; use the commands below |
+| `disable_when_zoomed` | `false`    | At nvim's edge, stay in nvim while the tmxr window is zoomed |
+| `save_on_switch`      | `0`        | Before leaving nvim: `1` `:update` the buffer, `2` `:wall`   |
+| `executable`          | `\"tmxr\"` | The tmxr to run, when it is not `tmxr` on `PATH`             |
 
 `vim.g.tmxr_navigator_no_mappings = true` before the plugin loads also leaves
 the mappings out.
@@ -65,6 +69,7 @@ vim.keymap.set("n", "<M-h>", "<Cmd>TmxrNavigateLeft<CR>")
 
 ```sh
 nvim --headless --clean -l tests/run.lua   # tests; tmxr is stubbed out
+bash tests/integration.sh                  # a real nvim in a real tmxr pane
 stylua --check .
 ```
 
