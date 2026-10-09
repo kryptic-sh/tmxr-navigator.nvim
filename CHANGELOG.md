@@ -6,6 +6,8 @@ adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-10-09
+
 ### Added
 
 - `C-h` / `C-j` / `C-k` / `C-l` move between nvim splits and, at nvim's edge
@@ -18,3 +20,7 @@ adheres to [Semantic Versioning](https://semver.org/).
   (`select-pane -Z`, tmxr after v0.2.1).
 - `executable` option, and a missing tmxr is a quiet failure: nvim stays where
   it is instead of raising an error on every move at its edge.
+
+[Unreleased]:
+  https://github.com/kryptic-sh/tmxr-navigator.nvim/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/kryptic-sh/tmxr-navigator.nvim/releases/tag/v0.1.0

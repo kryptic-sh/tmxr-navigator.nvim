@@ -40,4 +40,13 @@ sleep 2
 wait_for '#{pane_index}' '1' # moved inside nvim, still in its pane
 t send-keys -t n C-h
 wait_for '#{pane_index}' '0' # at nvim's edge: tmxr moved
+
+# preserve_zoom: from nvim in a zoomed window, moving keeps the zoom.
+t select-pane -t n -R
+t resize-pane -Z -t n
+wait_for '#{pane_index} #{window_zoomed_flag}' '1 1'
+t send-keys -t n ":lua require('tmxr-navigator').setup({ preserve_zoom = true })" Enter
+sleep 1
+t send-keys -t n ":wincmd h" Enter C-h
+wait_for '#{pane_index} #{window_zoomed_flag}' '0 1'
 echo "integration: ok"

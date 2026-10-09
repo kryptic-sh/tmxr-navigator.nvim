@@ -42,7 +42,8 @@ jobs:
       - run: nvim --headless --clean -l tests/run.lua
 
   # A real nvim with the plugin in a real tmxr pane, against tmxr's release
-  # (v0.2.1 or later on Windows: earlier panes lose the server's PATH).
+  # (v0.2.1 or later on Windows: earlier panes lose the server's PATH;
+  # v0.2.2 or later for select-pane -Z).
   integration:
     name: integration ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
@@ -60,7 +61,7 @@ jobs:
             target: x86_64-pc-windows-msvc
             archive: zip
     env:
-      TMXR_VERSION: v0.2.1
+      TMXR_VERSION: v0.2.2
     steps:
       - uses: actions/checkout@v7
       - uses: rhysd/action-setup-vim@v1
