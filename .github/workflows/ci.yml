@@ -41,9 +41,8 @@ jobs:
           version: ${{ matrix.nvim }}
       - run: nvim --headless --clean -l tests/run.lua
 
-  # A real nvim with the plugin in a real tmxr pane, against tmxr's release.
-  # Windows waits for a tmxr release whose panes keep the server's PATH
-  # (fixed after v0.2.0): before it, nvim in a pane cannot find tmxr there.
+  # A real nvim with the plugin in a real tmxr pane, against tmxr's release
+  # (v0.2.1 or later on Windows: earlier panes lose the server's PATH).
   integration:
     name: integration ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
@@ -53,10 +52,15 @@ jobs:
         include:
           - os: ubuntu-latest
             target: x86_64-unknown-linux-gnu
+            archive: tar.gz
           - os: macos-latest
             target: aarch64-apple-darwin
+            archive: tar.gz
+          - os: windows-latest
+            target: x86_64-pc-windows-msvc
+            archive: zip
     env:
-      TMXR_VERSION: v0.2.0
+      TMXR_VERSION: v0.2.1
     steps:
       - uses: actions/checkout@v7
       - uses: rhysd/action-setup-vim@v1
@@ -64,12 +68,18 @@ jobs:
           neovim: true
           version: stable
       - name: Install tmxr
+        shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           dir="$RUNNER_TEMP/tmxr"
-          gh release download "$TMXR_VERSION" -R kryptic-sh/tmxr \
-            -p "tmxr-$TMXR_VERSION-${{ matrix.target }}.tar.gz" -D "$dir"
-          tar -xzf "$dir"/*.tar.gz -C "$dir"
+          archive="tmxr-$TMXR_VERSION-${{ matrix.target }}.${{ matrix.archive }}"
+          gh release download "$TMXR_VERSION" -R kryptic-sh/tmxr -p "$archive" -D "$dir"
+          if [ "${{ matrix.archive }}" = zip ]; then
+            unzip -q "$dir/$archive" -d "$dir"
+          else
+            tar -xzf "$dir/$archive" -C "$dir"
+          fi
           echo "$dir" >> "$GITHUB_PATH"
       - run: bash tests/integration.sh
+        shell: bash

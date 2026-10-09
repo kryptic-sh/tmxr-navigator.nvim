@@ -19,9 +19,9 @@ tmxr the keys just move between splits.
 previous window (`:wincmd p`).
 
 Needs nvim 0.10 or newer (`vim.system`) and `tmxr` on your `PATH` (or the
-`executable` option). Without it nvim just stays where it is. On Windows, tmxr
-before the release after v0.2.0 gives panes the registry's `PATH` rather than
-the one tmxr was started with.
+`executable` option). Without it nvim just stays where it is. On Windows, use
+tmxr v0.2.1 or later: earlier panes got the registry's `PATH`, not the one tmxr
+was started with.
 
 ## Install
 
