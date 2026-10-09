@@ -12,6 +12,9 @@ local defaults = {
   no_mappings = false,
   -- Stay in nvim at its edge while the tmxr window is zoomed.
   disable_when_zoomed = false,
+  -- Keep a zoomed tmxr window zoomed when moving to another pane
+  -- (`select-pane -Z`, tmxr after v0.2.1). `disable_when_zoomed` wins.
+  preserve_zoom = false,
   -- Before leaving nvim: 0 nothing, 1 `:update` the buffer, 2 `:wall`.
   save_on_switch = 0,
   -- The tmxr to run, when it is not `tmxr` on PATH.
@@ -81,7 +84,11 @@ function M.navigate(dir)
     return
   end
   save()
-  if M.tmxr({ "select-pane", flag }) ~= nil then
+  local args = { "select-pane", flag }
+  if M.options.preserve_zoom then
+    table.insert(args, "-Z")
+  end
+  if M.tmxr(args) ~= nil then
     tmxr_was_last = true
   end
 end

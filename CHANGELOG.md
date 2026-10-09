@@ -14,5 +14,7 @@ adheres to [Semantic Versioning](https://semver.org/).
 - `:TmxrNavigateLeft` / `Down` / `Up` / `Right` / `Previous` commands.
 - Options `no_mappings`, `disable_when_zoomed` and `save_on_switch`, as in
   vim-tmux-navigator.
+- `preserve_zoom` option: moving keeps a zoomed tmxr window zoomed
+  (`select-pane -Z`, tmxr after v0.2.1).
 - `executable` option, and a missing tmxr is a quiet failure: nvim stays where
   it is instead of raising an error on every move at its edge.

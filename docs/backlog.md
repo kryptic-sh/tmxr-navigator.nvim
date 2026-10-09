@@ -2,10 +2,9 @@
 
 ## Not yet verified
 
-- `save_on_switch` has no test.
+- `preserve_zoom` against a real tmxr: CI's integration job uses tmxr v0.2.1,
+  which has no `select-pane -Z`; move it to the first release that does.
 
 ## Not done
 
-- vim-tmux-navigator's `preserve_zoom` (keep a zoomed tmux window zoomed when
-  moving) has no counterpart.
 - No release yet; plugin managers install from `main`.
