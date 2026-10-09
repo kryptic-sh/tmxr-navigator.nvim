@@ -46,12 +46,12 @@ Any plugin manager works: the plugin maps its keys when it loads.
 
 ## Options
 
-| Option                | Default    | What                                                         |
-| --------------------- | ---------- | ------------------------------------------------------------ |
-| `no_mappings`         | `false`    | Leave `C-h/j/k/l` and `C-\` unmapped; use the commands below |
-| `disable_when_zoomed` | `false`    | At nvim's edge, stay in nvim while the tmxr window is zoomed |
-| `save_on_switch`      | `0`        | Before leaving nvim: `1` `:update` the buffer, `2` `:wall`   |
-| `executable`          | `\"tmxr\"` | The tmxr to run, when it is not `tmxr` on `PATH`             |
+| Option                | Default  | What                                                         |
+| --------------------- | -------- | ------------------------------------------------------------ |
+| `no_mappings`         | `false`  | Leave `C-h/j/k/l` and `C-\` unmapped; use the commands below |
+| `disable_when_zoomed` | `false`  | At nvim's edge, stay in nvim while the tmxr window is zoomed |
+| `save_on_switch`      | `0`      | Before leaving nvim: `1` `:update` the buffer, `2` `:wall`   |
+| `executable`          | `"tmxr"` | The tmxr to run, when it is not `tmxr` on `PATH`             |
 
 `vim.g.tmxr_navigator_no_mappings = true` before the plugin loads also leaves
 the mappings out.
